@@ -8,11 +8,13 @@ import butterknife.ButterKnife;
 import com.android.githubpoc.R;
 import com.android.githubpoc.adapters.IssuesAdapter;
 import com.android.githubpoc.presenters.HomePresenter;
+import com.android.githubpoc.repository.BaseRepository;
 
 public class HomeActivity extends BaseActivity {
     @BindView(R.id.rv_home) RecyclerView rvHome;
     private HomePresenter presenter;
     private IssuesAdapter adapter;
+    private BaseRepository baseRepository;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void init() {
+        baseRepository = new BaseRepository();
         initPresenter();
         initRecyclerView();
     }
@@ -31,6 +34,6 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initPresenter() {
-        presenter = new HomePresenter();
+        presenter = new HomePresenter(baseRepository);
     }
 }
