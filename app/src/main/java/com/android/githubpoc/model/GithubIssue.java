@@ -6,7 +6,6 @@ public class GithubIssue {
     @SerializedName("number") private int prNumber;
     @SerializedName("title") private String title;
     @SerializedName("user") private GithubUser user;
-    @SerializedName("pull_request") private PullRequest pullRequest;
     @SerializedName("state") private String state;
 
     public int getPrNumber() {
@@ -31,14 +30,6 @@ public class GithubIssue {
 
     public void setUser(GithubUser user) {
         this.user = user;
-    }
-
-    public PullRequest getPullRequest() {
-        return pullRequest;
-    }
-
-    public void setPullRequest(PullRequest pullRequest) {
-        this.pullRequest = pullRequest;
     }
 
     public String getState() {

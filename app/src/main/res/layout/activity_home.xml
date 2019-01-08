@@ -1,15 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     >
+
+  <LinearLayout
+      android:id="@+id/ll_container_repo_details"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+    <EditText
+        android:id="@+id/et_owner_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_repo_owner_name"
+        android:maxLines="1"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        />
+    <EditText
+        android:id="@+id/et_repo_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_vertical_margin"
+        android:hint="@string/enter_repo__name"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        android:singleLine="true"
+        />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_vertical_margin"
+        android:text="@string/submit"
+        />
+  </LinearLayout>
 
   <android.support.v7.widget.RecyclerView
       android:id="@+id/rv_home"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:layout_below="@+id/ll_container_repo_details"
+      android:layout_marginTop="@dimen/default_vertical_margin"
       ></android.support.v7.widget.RecyclerView>
 
-</LinearLayout>
+  <ProgressBar
+      android:id="@+id/pb_home"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:visibility="gone"
+      />
+
+</RelativeLayout>

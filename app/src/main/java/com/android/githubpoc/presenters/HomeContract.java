@@ -9,7 +9,7 @@ public interface HomeContract {
 
         void setProgressIndicator(boolean active);
 
-        void showIssues(List<GithubIssue> notes);
+        void showIssues(List<GithubIssue> issues);
 
         void showMessage(String message);
     }

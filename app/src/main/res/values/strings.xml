@@ -4,4 +4,9 @@
   <string name="pr_title">Title:</string>
   <string name="patch_url">Patch Url:</string>
   <string name="something_went_wrong">Something went wrong</string>
+  <string name="retry">Retry</string>
+  <string name="enter_repo__name">Enter repo name</string>
+  <string name="enter_repo_owner_name">Enter repo owner name</string>
+  <string name="submit">Submit</string>
+  <string name="this_field_is_required">This field is required</string>
 </resources>
