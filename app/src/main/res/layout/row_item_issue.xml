@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:autoLink="web"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColorLink="@android:color/holo_blue_dark"
             />
       </LinearLayout>
     </LinearLayout>
