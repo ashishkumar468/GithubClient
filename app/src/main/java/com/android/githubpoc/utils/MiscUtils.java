@@ -22,8 +22,4 @@ public class MiscUtils {
             return false;
         }
     }
-
-    public static long getCurrentTimestamp() {
-        return System.currentTimeMillis();
-    }
 }

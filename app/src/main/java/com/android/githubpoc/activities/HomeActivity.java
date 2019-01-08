@@ -19,10 +19,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.android.githubpoc.R;
 import com.android.githubpoc.adapters.IssuesAdapter;
-import com.android.githubpoc.model.GithubIssue;
+import com.android.githubpoc.model.PullRequest;
 import com.android.githubpoc.model.RepoDetails;
 import com.android.githubpoc.presenters.HomeContract;
 import com.android.githubpoc.presenters.HomePresenter;
+import com.android.githubpoc.utils.MiscUtils;
 import com.jakewharton.rxbinding3.InitialValueObservable;
 import com.jakewharton.rxbinding3.widget.RxTextView;
 import io.reactivex.Observer;
@@ -140,8 +141,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         }
     }
 
-    @Override public void showIssues(List<GithubIssue> issues) {
-        adapter.setGithubIssues(issues);
+    @Override public void showIssues(List<PullRequest> issues) {
+        adapter.setPullRequests(issues);
     }
 
     @Override public void showMessage(String message) {
@@ -161,10 +162,18 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             etRepoName.setError(getString(R.string.this_field_is_required));
         } else {
             hideKeyboard();
+            askPresenterToFetchData();
+        }
+    }
+
+    private void askPresenterToFetchData() {
+        if (MiscUtils.isConnectedToInternet()) {
             disableLLContainerRepoDetails(true);
             repoDetails.setUserName(etOwnerName.getText().toString());
             repoDetails.setRepoName(etRepoName.getText().toString());
             presenter.fetchIssues(issueType, repoDetails);
+        } else {
+            showMessage(getString(R.string.no_internet_connection));
         }
     }
 

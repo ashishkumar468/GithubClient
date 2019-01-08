@@ -5,6 +5,6 @@ public class ApiConstants {
 
     public class REST_API {
         public static final String BASE_URL = "https://api.github.com/";
-        public static final String ISSUES = "issues";
+        public static final String PULLS = "pulls";
     }
 }

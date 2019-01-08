@@ -1,6 +1,6 @@
 package com.android.githubpoc.repository;
 
-import com.android.githubpoc.model.GithubIssue;
+import com.android.githubpoc.model.PullRequest;
 import com.android.githubpoc.model.RepoDetails;
 import com.android.githubpoc.repository.communucations.RemoteDataSource;
 import com.android.githubpoc.repository.communucations.ResponseSingleObserverHelper;
@@ -13,7 +13,7 @@ import java.util.List;
 public class BaseRepository {
     private static final String TAG = "#BaseRepository#";
     RemoteDataSource remoteDataSource;
-    private ResponseSingleObserverHelper<List<GithubIssue>> providerResponseObserverHelper;
+    private ResponseSingleObserverHelper<List<PullRequest>> providerResponseObserverHelper;
 
     public BaseRepository() {
         remoteDataSource = new RemoteDataSource();
@@ -28,7 +28,7 @@ public class BaseRepository {
         final RestResponseCallback restResponseCallback) {
         providerResponseObserverHelper = new ResponseSingleObserverHelper(restResponseCallback);
 
-        Single<List<GithubIssue>> githubIssuesSingle =
+        Single<List<PullRequest>> githubIssuesSingle =
             remoteDataSource.fetchIssue(issueType, repoDetails.getUserName(),
                 repoDetails.getRepoName());
         githubIssuesSingle.observeOn(AndroidSchedulers.mainThread())

@@ -2,7 +2,8 @@ package com.android.githubpoc.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GithubIssue {
+public class PullRequest {
+    @SerializedName("url") private String url;
     @SerializedName("number") private int prNumber;
     @SerializedName("title") private String title;
     @SerializedName("user") private GithubUser user;
@@ -38,5 +39,13 @@ public class GithubIssue {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

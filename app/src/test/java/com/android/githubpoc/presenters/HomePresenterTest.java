@@ -1,6 +1,6 @@
 package com.android.githubpoc.presenters;
 
-import com.android.githubpoc.model.GithubIssue;
+import com.android.githubpoc.model.PullRequest;
 import com.android.githubpoc.model.RepoDetails;
 import com.android.githubpoc.model.response.RestResponse;
 import com.android.githubpoc.repository.BaseRepository;
@@ -22,7 +22,7 @@ public class HomePresenterTest {
     @Mock HomeContract.View iHomeView;
 
     RepoDetails repoDetails;
-    @Mock List<GithubIssue> githubIssues;
+    @Mock List<PullRequest> pullRequests;
 
     private HomePresenter homePresenter;
 
@@ -37,7 +37,7 @@ public class HomePresenterTest {
         repoDetails = new RepoDetails();
         repoDetails.setUserName("ashish");
         repoDetails.setRepoName("pocgithub");
-        successRestResponse = new RestResponse(true, "success", githubIssues);
+        successRestResponse = new RestResponse(true, "success", pullRequests);
         failureRestResponse = new RestResponse(false, "failure", null);
     }
 
@@ -52,7 +52,7 @@ public class HomePresenterTest {
         fetchIssuesBaseTest();
         restResponseCallbackArgumentCaptor.getValue().onApiResponse(successRestResponse);
         verify(iHomeView).setProgressIndicator(false);
-        verify(iHomeView).showIssues(githubIssues);
+        verify(iHomeView).showIssues(pullRequests);
     }
 
     @Test public void fetchIssuesFailureTest() {

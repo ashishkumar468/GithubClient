@@ -1,6 +1,6 @@
 package com.android.githubpoc.repository.communucations;
 
-import com.android.githubpoc.model.GithubIssue;
+import com.android.githubpoc.model.PullRequest;
 import com.android.githubpoc.repository.communucations.interfaces.IData;
 import com.android.githubpoc.utils.MiscUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -39,7 +39,7 @@ public class RestClient implements IData {
             .build();
     }
 
-    @Override public Single<List<GithubIssue>> getIssues(String issueState, String username,
+    @Override public Single<List<PullRequest>> getIssues(String issueState, String username,
         String reponame) {
         IData service = retrofit.create(IData.class);
         return service.getIssues(username, reponame, issueState);

@@ -10,23 +10,23 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.android.githubpoc.R;
-import com.android.githubpoc.model.GithubIssue;
+import com.android.githubpoc.model.PullRequest;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder> {
-    List<GithubIssue> githubIssues;
+    List<PullRequest> pullRequests;
 
     public IssuesAdapter() {
-        githubIssues = new ArrayList<>();
+        pullRequests = new ArrayList<>();
     }
 
-    public void setGithubIssues(List<GithubIssue> githubIssues) {
-        if (null == githubIssues) {
-            this.githubIssues.clear();
+    public void setPullRequests(List<PullRequest> pullRequests) {
+        if (null == pullRequests) {
+            this.pullRequests.clear();
         } else {
-            this.githubIssues = githubIssues;
+            this.pullRequests = pullRequests;
         }
         notifyDataSetChanged();
     }
@@ -43,13 +43,14 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
     }
 
     @Override public int getItemCount() {
-        return githubIssues.size();
+        return pullRequests.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_avatar_url) ImageView ivAvatarUrl;
         @BindView(R.id.tv_username) TextView tvUserName;
         @BindView(R.id.tv_pr_title) TextView tvPrTitle;
+        @BindView(R.id.tv_pr_url) TextView tvPrUrl;
         @BindView(R.id.tv_pr_number) TextView tvPrNumber;
 
         public ViewHolder(@NonNull View itemView) {
@@ -58,12 +59,13 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         }
 
         public void init(int i) {
-            GithubIssue githubIssue = githubIssues.get(i);
-            tvPrNumber.setText(githubIssue.getPrNumber() + "");
-            tvPrTitle.setText(githubIssue.getTitle() + "");
-            tvUserName.setText(githubIssue.getUser().getUsername() + "");
+            PullRequest pullRequest = pullRequests.get(i);
+            tvPrNumber.setText(String.valueOf(pullRequest.getPrNumber()));
+            tvPrTitle.setText(pullRequest.getTitle());
+            tvPrUrl.setText(pullRequest.getUrl() + "");
+            tvUserName.setText(pullRequest.getUser().getUsername() + "");
             Glide.with(ivAvatarUrl.getContext())
-                .load(githubIssue.getUser().getAvatarUrl())
+                .load(pullRequest.getUser().getAvatarUrl())
                 .into(ivAvatarUrl);
         }
     }
