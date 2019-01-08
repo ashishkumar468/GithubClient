@@ -12,7 +12,7 @@ public class RemoteDataSource {
     }
 
     public Single<List<GithubIssue>> fetchIssue(String issueState, String username,
-        String reponame) {
-        return restClient.getIssues(issueState, username, reponame);
+        String repoName) {
+        return restClient.getIssues(issueState, username, repoName);
     }
 }

@@ -7,14 +7,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.android.githubpoc.R;
 import com.android.githubpoc.adapters.IssuesAdapter;
+import com.android.githubpoc.model.GithubIssue;
+import com.android.githubpoc.presenters.HomeContract;
 import com.android.githubpoc.presenters.HomePresenter;
-import com.android.githubpoc.repository.BaseRepository;
+import java.util.List;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements HomeContract.View {
     @BindView(R.id.rv_home) RecyclerView rvHome;
     private HomePresenter presenter;
     private IssuesAdapter adapter;
-    private BaseRepository baseRepository;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,6 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void init() {
-        baseRepository = new BaseRepository();
         initPresenter();
         initRecyclerView();
     }
@@ -34,6 +34,18 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initPresenter() {
-        presenter = new HomePresenter(baseRepository);
+        presenter = new HomePresenter();
+    }
+
+    @Override public void setProgressIndicator(boolean active) {
+
+    }
+
+    @Override public void showIssues(List<GithubIssue> notes) {
+
+    }
+
+    @Override public void showMessage(String message) {
+
     }
 }

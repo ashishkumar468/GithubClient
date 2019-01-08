@@ -16,6 +16,11 @@ public class HomePresenter
 
     public HomePresenter(BaseRepository baseRepository) {
         this.baseRepository = baseRepository;
+        //this one is temporarily used for test cases
+    }
+
+    public HomePresenter() {
+        baseRepository = new BaseRepository();
     }
 
     @Override public void attachView(HomeContract.View view) {
