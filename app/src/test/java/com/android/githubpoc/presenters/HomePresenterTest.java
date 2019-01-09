@@ -42,7 +42,7 @@ public class HomePresenterTest {
     }
 
     private void fetchIssuesBaseTest() {
-        homePresenter.fetchIssues("open", repoDetails, 1);
+        homePresenter.fetchPRS("open", repoDetails, 1);
         verify(iHomeView).setProgressIndicator(true);
         verify(baseRepository).fetchIssues(eq("open"), eq(repoDetails), eq(1),
             restResponseCallbackArgumentCaptor.capture());

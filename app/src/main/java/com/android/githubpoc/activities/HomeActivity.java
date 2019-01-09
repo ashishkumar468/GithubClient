@@ -159,7 +159,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private void loadMoreItems() {
         isLoading = true;
-        presenter.fetchIssues(issueType, repoDetails, pageNumber);
+        presenter.fetchPRS(issueType, repoDetails, pageNumber);
     }
 
     private void initPresenter() {

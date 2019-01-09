@@ -37,6 +37,8 @@ public class BaseRepository {
     }
 
     public void dispose() {
-        providerResponseObserverHelper.dispose();
+        if (providerResponseObserverHelper != null) {
+            providerResponseObserverHelper.dispose();
+        }
     }
 }

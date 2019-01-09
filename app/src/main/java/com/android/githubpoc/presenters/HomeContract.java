@@ -16,6 +16,6 @@ public interface HomeContract {
 
     interface UserActionsListener {
 
-        void fetchIssues(String issueType, RepoDetails repoDetails, int pageNumber);
+        void fetchPRS(String issueType, RepoDetails repoDetails, int pageNumber);
     }
 }
