@@ -26,12 +26,13 @@ public class HomePresenter
     }
 
     @Override public void detachView() {
+        baseRepository.dispose();
         this.view = null;
     }
 
-    @Override public void fetchIssues(String issueType, RepoDetails repoDetails) {
+    @Override public void fetchIssues(String issueType, RepoDetails repoDetails, int pageNumber) {
         view.setProgressIndicator(true);
-        baseRepository.fetchIssues(issueType, repoDetails, restResponse -> {
+        baseRepository.fetchIssues(issueType, repoDetails,pageNumber, restResponse -> {
             view.setProgressIndicator(false);
             if (restResponse.isStatus()) {
                 view.showIssues((List<PullRequest>) restResponse.getData());

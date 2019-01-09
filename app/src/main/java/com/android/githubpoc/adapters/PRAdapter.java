@@ -15,18 +15,16 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder> {
+public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
     List<PullRequest> pullRequests;
 
-    public IssuesAdapter() {
+    public PRAdapter() {
         pullRequests = new ArrayList<>();
     }
 
     public void setPullRequests(List<PullRequest> pullRequests) {
-        if (null == pullRequests) {
-            this.pullRequests.clear();
-        } else {
-            this.pullRequests = pullRequests;
+        if (null != pullRequests) {
+            this.pullRequests.addAll(pullRequests);
         }
         notifyDataSetChanged();
     }
@@ -44,6 +42,10 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
 
     @Override public int getItemCount() {
         return pullRequests.size();
+    }
+
+    public void clearData() {
+        this.pullRequests.clear();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

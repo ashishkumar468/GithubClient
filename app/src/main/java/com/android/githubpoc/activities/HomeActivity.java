@@ -2,6 +2,7 @@ package com.android.githubpoc.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.android.githubpoc.R;
-import com.android.githubpoc.adapters.IssuesAdapter;
+import com.android.githubpoc.adapters.PRAdapter;
 import com.android.githubpoc.model.PullRequest;
 import com.android.githubpoc.model.RepoDetails;
 import com.android.githubpoc.presenters.HomeContract;
@@ -32,6 +33,7 @@ import io.reactivex.internal.operators.observable.ObservableScan;
 import java.util.List;
 
 public class HomeActivity extends BaseActivity implements HomeContract.View {
+    public static final int PAGE_SIZE = 10;
     @BindView(R.id.rv_home) RecyclerView rvHome;
     @BindView(R.id.pb_home) ProgressBar pbHome;
 
@@ -40,11 +42,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @BindView(R.id.et_repo_name) EditText etRepoName;
     @BindView(R.id.btn_submit) Button btnSubmit;
     private HomePresenter presenter;
-    private IssuesAdapter adapter;
+    private PRAdapter adapter;
 
     private String issueType;
     private RepoDetails repoDetails;
     private Snackbar snackbar;
+    private boolean isLoading;
+    private boolean isLastPage;
+    private int pageNumber = 0;
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,9 +121,45 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private void initRecyclerView() {
         issueType = "open";
-        adapter = new IssuesAdapter();
+        adapter = new PRAdapter();
         rvHome.setLayoutManager(new LinearLayoutManager(this));
         rvHome.setAdapter(adapter);
+        addOnScrollListener();
+    }
+
+    private void addOnScrollListener() {
+        rvHome.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {//only positive scrolls are considered for pagination
+                    LinearLayoutManager layoutManager =
+                        (LinearLayoutManager) rvHome.getLayoutManager();
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                    if (!isLoading && !isLastPage) {
+                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= PAGE_SIZE) {
+                            pageNumber++;
+                            loadMoreItems();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadMoreItems() {
+        isLoading = true;
+        presenter.fetchIssues(issueType, repoDetails, pageNumber);
     }
 
     private void initPresenter() {
@@ -132,6 +173,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         } else {
             disableLLContainerRepoDetails(false);
             pbHome.setVisibility(View.GONE);
+            isLoading = false;
         }
     }
 
@@ -142,7 +184,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     @Override public void showIssues(List<PullRequest> issues) {
-        adapter.setPullRequests(issues);
+        if (issues == null || issues.size() == 0) {
+            isLastPage = true;
+        } else {
+            adapter.setPullRequests(issues);
+        }
     }
 
     @Override public void showMessage(String message) {
@@ -161,9 +207,17 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         } else if (TextUtils.isEmpty(etRepoName.getText().toString())) {
             etRepoName.setError(getString(R.string.this_field_is_required));
         } else {
+            resetDefaults();
             hideKeyboard();
             askPresenterToFetchData();
         }
+    }
+
+    private void resetDefaults() {
+        pageNumber = 0;
+        isLoading = false;
+        isLastPage = false;
+        adapter.clearData();
     }
 
     private void askPresenterToFetchData() {
@@ -171,7 +225,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             disableLLContainerRepoDetails(true);
             repoDetails.setUserName(etOwnerName.getText().toString());
             repoDetails.setRepoName(etRepoName.getText().toString());
-            presenter.fetchIssues(issueType, repoDetails);
+            loadMoreItems();
         } else {
             showMessage(getString(R.string.no_internet_connection));
         }

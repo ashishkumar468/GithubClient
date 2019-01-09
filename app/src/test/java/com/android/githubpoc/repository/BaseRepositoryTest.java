@@ -28,8 +28,8 @@ public class BaseRepositoryTest {
     }
 
     @Test public void fetchIssuesTest() {
-        baseRepository.fetchIssues("open", repoDetails, restResponseCallback);
+        baseRepository.fetchIssues("open", repoDetails, 1, restResponseCallback);
         verify(remoteDataSource).fetchIssue(eq("open"), eq(repoDetails.getUserName()),
-            eq(repoDetails.getRepoName()));
+            eq(repoDetails.getRepoName()), eq(1));
     }
 }

@@ -24,15 +24,19 @@ public class BaseRepository {
         //this is temporarily used for test cases
     }
 
-    public void fetchIssues(String issueType, RepoDetails repoDetails,
+    public void fetchIssues(String issueType, RepoDetails repoDetails, int pageNumber,
         final RestResponseCallback restResponseCallback) {
         providerResponseObserverHelper = new ResponseSingleObserverHelper(restResponseCallback);
 
         Single<List<PullRequest>> githubIssuesSingle =
             remoteDataSource.fetchIssue(issueType, repoDetails.getUserName(),
-                repoDetails.getRepoName());
+                repoDetails.getRepoName(), pageNumber);
         githubIssuesSingle.observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(providerResponseObserverHelper);
+    }
+
+    public void dispose() {
+        providerResponseObserverHelper.dispose();
     }
 }

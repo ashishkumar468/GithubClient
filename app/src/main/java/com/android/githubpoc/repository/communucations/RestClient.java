@@ -5,7 +5,9 @@ import com.android.githubpoc.repository.communucations.interfaces.IData;
 import com.android.githubpoc.utils.MiscUtils;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import io.reactivex.Single;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -39,9 +41,10 @@ public class RestClient implements IData {
             .build();
     }
 
-    @Override public Single<List<PullRequest>> getIssues(String issueState, String username,
-        String reponame) {
+    @Override
+    public Single<List<PullRequest>> getIssues(String username, String reponame,
+        HashMap<String,String> queryMap) {
         IData service = retrofit.create(IData.class);
-        return service.getIssues(username, reponame, issueState);
+        return service.getIssues(username, reponame,queryMap);
     }
 }
