@@ -24,9 +24,10 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     public void setPullRequests(List<PullRequest> pullRequests) {
         if (null != pullRequests) {
+            int lastSize = this.pullRequests.size();
             this.pullRequests.addAll(pullRequests);
+            notifyItemRangeChanged(lastSize, this.pullRequests.size());
         }
-        notifyDataSetChanged();
     }
 
     @NonNull @Override public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -46,6 +47,7 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
 
     public void clearData() {
         this.pullRequests.clear();
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
