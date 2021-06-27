@@ -44,12 +44,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private HomePresenter presenter;
     private PRAdapter adapter;
 
-    private String issueType;
     private RepoDetails repoDetails;
     private Snackbar snackbar;
     private boolean isLoading;
     private boolean isLastPage;
     private int pageNumber = 0;
+
+    private static final String ISSUE_TYPE_CLOSED="closed";
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +121,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void initRecyclerView() {
-        issueType = "open";
         adapter = new PRAdapter();
         rvHome.setLayoutManager(new LinearLayoutManager(this));
         rvHome.setAdapter(adapter);
@@ -159,7 +159,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private void loadMoreItems() {
         isLoading = true;
-        presenter.fetchPRS(issueType, repoDetails, pageNumber);
+        presenter.fetchPRS(ISSUE_TYPE_CLOSED, repoDetails, pageNumber);
     }
 
     private void initPresenter() {

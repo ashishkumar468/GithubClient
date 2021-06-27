@@ -56,6 +56,8 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
         @BindView(R.id.tv_pr_title) TextView tvPrTitle;
         @BindView(R.id.tv_pr_url) TextView tvPrUrl;
         @BindView(R.id.tv_pr_number) TextView tvPrNumber;
+        @BindView(R.id.tv_created) TextView tvDateCreated;
+        @BindView(R.id.tv_closed) TextView tvDateClosed;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,8 +68,11 @@ public class PRAdapter extends RecyclerView.Adapter<PRAdapter.ViewHolder> {
             PullRequest pullRequest = pullRequests.get(i);
             tvPrNumber.setText(String.valueOf(pullRequest.getPrNumber()));
             tvPrTitle.setText(pullRequest.getTitle());
-            tvPrUrl.setText(pullRequest.getUrl() + "");
-            tvUserName.setText(pullRequest.getUser().getUsername() + "");
+            tvPrUrl.setText(String.format("%s", pullRequest.getUrl()));
+            tvUserName.setText(String.format("%s", pullRequest.getUser().getUsername()));
+            //TODO prettify date
+            tvDateCreated.setText(pullRequest.getCreatedAt());
+            tvDateClosed.setText(pullRequest.getClosedAt());
             Glide.with(ivAvatarUrl.getContext())
                 .load(pullRequest.getUser().getAvatarUrl())
                 .into(ivAvatarUrl);
